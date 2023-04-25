@@ -70,6 +70,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SoOrganizedApp.wsgi.application'
 
+AUTH_USER_MODEL = 'account.Account'
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
