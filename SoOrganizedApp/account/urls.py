@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
-from account.views import loginView
+from account.views import login, register, passwordRecovery
 
 urlpatterns = [
-    path('login/', loginView, name="login")
+    path('login/', login, name="login"),
+    path('register/', register, name="register"),
+    path('passrec/', passwordRecovery, name="passrec"),
 ]

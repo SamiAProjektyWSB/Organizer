@@ -11,20 +11,17 @@
 <body>
 
     <form name="form" onsubmit="return validateform()" class="form">
-        <h1><strong>Zaloguj się</strong></h1>
+        <h1><strong>Utwórz konto</strong></h1>
+        <input type="text" placeholder="Adres e-mail" name="mail" id="mail"  ></input>
+        <br>
         <input type="text" placeholder="Nazwa Użytkownika" name="nick" id="nick"  ></input>
         <br>
         <input type="password" placeholder="Hasło" name="password" id="password" ></input>
         <br>
-        <input type="submit" value="Zaloguj się" class="button" name="login" id="login"  ></input>
+        <input type="password" placeholder="Powtórz hasło" name="password" id="password" ></input>
         <br>
+        <input type="submit" value="Zarejestruj się" class="button" name="login" id="login"  ></input>
         <br>
-        <br>
-        <br>
-        <span>Nie masz jeszcze konta? <a href="">Zarejestruj się!</a></span>
-        <br>
-        <br>
-        <span>Nie pamietasz hasła? Nie ma problemu! <a href="">Odzyskaj hasło teraz!</a></span>
     </form>
 <script src="{% static 'script.js' %}"></script>
 </body>

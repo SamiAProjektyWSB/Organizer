@@ -1,5 +1,11 @@
 from django.shortcuts import render
 
-def loginView(request):
+def login(request):
     return render(request, "login.html", {})
+
+def register(request):
+    return render(request, "register.html", {})
+
+def passwordRecovery(request):
+    return render(request, "password-recovery.html", {})
 
