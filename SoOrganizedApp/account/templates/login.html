@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soorganized</title>
+    <link rel="stylesheet" href=" {% static 'style.css' %} ">
 </head>
 <body>
-<h1>Zaloguj się</h1>
+
+    <form name="form" onsubmit="return validateform()" class="form">
+        <h1><strong>Zaloguj się</strong></h1>
+        <input type="text" placeholder="Nazwa Użytkownika" name="nick" id="nick"  ></input>
+        <br>
+        <input type="password" placeholder="Hasło" name="password" id="password" ></input>
+        <br>
+        <input type="submit" value="Zaloguj się" class="button" name="login" id="login"  ></input>
+        <br>
+        <br>
+        <br>
+        <br>
+        <span>Nie masz jeszcze konta? <a href="">Zarejestruj się!</a></span>
+    </form>
+<script src="{% static 'script.js' %}"></script>
 </body>
 </html>
