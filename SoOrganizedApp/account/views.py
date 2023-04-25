@@ -9,3 +9,6 @@ def register(request):
 def passwordRecovery(request):
     return render(request, "password-recovery.html", {})
 
+def home(request):
+    return render(request, "base.html", {})
+
