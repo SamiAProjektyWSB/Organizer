@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form name="form" onsubmit="return validateform()" class="form">
+{% load widget_tweaks %}
+    <form class="form" method="post">
+        {% csrf_token %}
         <h1><strong>Zaloguj się</strong></h1>
-        <input type="text" placeholder="Nazwa Użytkownika" name="nick" id="nick"  ></input>
+        <!--<input type="text" placeholder="Nazwa Użytkownika" name="nick" id="nick"  ></input>-->
+        {% render_field form.mail class="input" %}
+        <span>Adres e-mail</span>
+        {{ form.mail.errors}}
         <br>
-        <input type="password" placeholder="Hasło" name="password" id="password" ></input>
+        <!--<input type="password" placeholder="Hasło" name="password" id="password" ></input>-->
+        {% render_field form.password class="input" type="password" %}
+        <span>Hasło</span>
+        {{form.password.errors}}
         <br>
         <input type="submit" value="Zaloguj się" class="button" name="login" id="login"  ></input>
         <br>
