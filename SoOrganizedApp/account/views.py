@@ -1,12 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from account.forms import AuthForm, Registration 
-
-
-@login_required
-def home(request):
-    return render(request, "home.html", {})
+from account.forms import AuthForm, Registration
+from soocalendar.views import home
 
 def loginPage(request):
     context = {}
@@ -35,7 +31,7 @@ def register(request):
             return redirect('home')
     else:
         form = Registration()
-        
+
     context['form'] = form    
     
     return render(request, "register.html", context)

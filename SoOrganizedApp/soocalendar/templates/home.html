@@ -1,0 +1,27 @@
+{% extends 'base-app.html' %}
+{% block content %}
+{% load widget_tweaks %}
+<div class="left" >
+    <form method="post" class="form" style="float: left;">
+        {% csrf_token %}
+        <h1><strong>Organizer</strong></h1>
+        <span><strong>Narzędzie kalendarza</strong></span>
+        <br>
+        {% render_field form.name class="input"%}  
+        <label for="id_mail">Nazwa wydarzenia<label>
+        {{ form.name.errors}} 
+        <br>
+        {% render_field form.visible_for class="input"%}     
+        <label>Widok</label>
+        {{ form.visible_for.errors}} 
+        <br>
+        {% render_field form.editable_by class="input"%}   
+        <label>Edytowane przez</label>
+        {{ form.editable_by.errors}}     
+        <br>     
+        <br>
+        <input type="submit" value="Dodaj" class="button" name="login" id="login"  ></input>
+        <br>
+    </form>
+</div>
+{% endblock content %}
