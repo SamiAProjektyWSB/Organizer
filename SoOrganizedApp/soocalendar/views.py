@@ -8,7 +8,7 @@ def home(request):
 
     }
     if request.POST:
-        form == CalendarInput(request.POST)
+        form = CalendarInput(request.POST)
         if form.is_valid():
             calendar = form.save(commit=False)
             calendar.owner_id = request.user.pk
@@ -16,5 +16,5 @@ def home(request):
 
 
     form = CalendarInput()
-    context["form"] = form
-    return render(request, "home.html", {})
+    context['form'] = form
+    return render(request, "home.html", context)

@@ -24,7 +24,7 @@ class Event(models.Model):
 
     event_id = models.AutoField(primary_key=True)
     calendar_id = models.ForeignKey(Calendar, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=80)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField(null=True, blank=True)
     event_type =  models.CharField(max_length=1 , choices=CHOICE, default="P")

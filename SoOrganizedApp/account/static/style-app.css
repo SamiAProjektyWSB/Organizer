@@ -74,3 +74,11 @@ span{
 .left{
     float: left;
 }
+
+.calendar{ 
+    height: 900px;
+    margin: auto;
+    background-color: rgba(255,255,255,0.252);
+    backdrop-filter: blur(40px);
+    border-radius: 20px;
+}

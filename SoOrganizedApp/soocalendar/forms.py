@@ -2,14 +2,14 @@ from django import forms
 from soocalendar.models import Calendar, Event
 from account.models import Account
 
-class CalendarInput():
+class CalendarInput(forms.ModelForm):
     visible_for = forms.CharField(required=False)
     editable_by = forms.CharField(required=False)
 
 
     class Meta:
         model = Calendar
-        exlude=("owner", "visible_for","editable_by")
+        exclude=("owner", "visible_for","editable_by")
 
     def save(self, commit=True):
         calendar = self.instance
