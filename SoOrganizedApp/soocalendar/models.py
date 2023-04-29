@@ -23,10 +23,10 @@ class Event(models.Model):
     ]
 
     event_id = models.AutoField(primary_key=True)
-    calendar_id = models.ForeignKey(Calendar, on_delete=models.CASCADE)
+    calendar = models.ForeignKey(Calendar, on_delete=models.CASCADE)
     name = models.CharField(max_length=80)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField(null=True, blank=True)
+    beggining_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True, blank=True)
     event_type =  models.CharField(max_length=1 , choices=CHOICE, default="P")
 
     def __str__(self):

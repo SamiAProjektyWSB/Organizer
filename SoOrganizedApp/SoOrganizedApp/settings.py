@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'account',
     'widget_tweaks',
     'soocalendar',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

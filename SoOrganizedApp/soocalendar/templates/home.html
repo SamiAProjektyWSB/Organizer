@@ -3,6 +3,8 @@
 {% load widget_tweaks %}
 <script>
 
+
+
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -13,31 +15,172 @@
 
       });
       calendar.render();
+
+      // Calendar edit form
+      calendars = JSON.parse(document.getElementById("calendar_data").textContent);
+      input_calendars = document.getElementById("id_calendars");
+      input_name = document.getElementById("id_name");
+      input_visible_for = document.getElementById("id_visible_for");
+      input_editable_by = document.getElementById("id_editable_by");
+      input_calendar_id = document.getElementById("id_calendar_id");
+      
+      if (calendars.length > 0) {
+          Swap();
+      } 
+      else {
+          deactivateInputs();
+      }
     });
 
+    function hideAndShowElement() {
+      var form = document.getElementById("option1");
+      var baseform = document.getElementById("baseBox");
+      if (form.style.display === "none") {
+        form.style.display = "block";
+        baseform.style.display = "none";
+
+      } else {
+        form.style.display = "none";
+        baseform.style.display = "block"
+      }
+    }
+    function hideAndShowElement1() {
+      var form = document.getElementById("option2");
+      var baseform = document.getElementById("baseBox");
+      if (form.style.display === "none") {
+        form.style.display = "block";
+        baseform.style.display = "none";
+
+      } else {
+        form.style.display = "none";
+        baseform.style.display = "block"
+      }
+    }
+    function hideAndShowElement2() {
+      var form = document.getElementById("option3");
+      var baseform = document.getElementById("baseBox");
+      if (form.style.display === "none") {
+        form.style.display = "block";
+        baseform.style.display = "none";
+
+      } else {
+        form.style.display = "none";
+        baseform.style.display = "block"
+      }
+    }
+    function Swap() {
+      calendars.forEach((element) => {
+          if (element.calendar_id === parseInt(input_calendars.value)) {
+              input_name.value = element.name;
+              input_visible_for.value = element.visible_for;
+              input_editable_by.value = element.editable_by;
+              input_calendar_id.value = element.calendar_id;
+          }
+      });
+    }
   </script>
 <div class="left" >
+  <h1><strong>Organizer</strong></h1>
+  <span><strong>Narzędzia kalendarza</strong></span>
+  <br>
+  <button class="menu-button" onclick="hideAndShowElement()"><b>Tworzenie<b></button>
+  <button class="menu-button" onclick="hideAndShowElement1()"><b>Edycja<b></button>
+  <button class="menu-button" onclick="hideAndShowElement2()"><b>Kalendarz<b></button>
+  <div id="baseBox"><form class="form"></form></div>
+
+  <div id="option2" style="display:none;">
+    <form method="post" class="form">
+          {% csrf_token %}
+          {{ edit.owner.as_hidden }}
+          {{ edit.calendar_id.as_hidden }}
+          <h3><strong>Edycja istniejącego Kalendarza</strong></h3>
+          <br>
+          {% render_field edit.calendars class="input" onchange="Swap()" %}
+
+          {{ edit.calendars.errors }}
+          <br>
+          {% render_field edit.name class="input"%}  
+          <label>Nazwa Kalendarza<label>
+          {{ edit.name.errors}} 
+          <br>
+          {% render_field edit.visible_for class="input"%}     
+          <label>Widok</label>
+          {{ edit.visible_for.errors}} 
+          <br>
+          {% render_field edit.editable_by class="input"%}   
+          <label>Edytowane przez</label>
+          {{ edit.editable_by.errors}}     
+          <br>     
+          <br>
+          <button class="button" type="submit" name="action" value="edit">Dodaj</button>
+          <button class="button" type="submit" name="action" value="delete">Usuń Kalendarz</button>
+      </form>
+  </div>
+
+  <div id="option3" style="display:none;">
     <form method="post" class="form">
         {% csrf_token %}
-        <h1><strong>Organizer</strong></h1>
-        <span><strong>Narzędzie kalendarza</strong></span>
-        <br>
-        {% render_field form.name class="input"%}  
+        <h3><strong>Wybór Kalendarza:</strong></h3>
+        
+        {% for calendar in soocalendars %}
+        <ul>
+        <li class="">
+            {{ calendar.name }}
+            {% if calendarChosen != calendar.calendar_id%}
+            <a type="button" class="input" href="{% url 'home' %}?calendarChosen={{calendar.calendar_id}}">Wybierz</a>
+            {% endif %}
+          </li>
+        </ul>
+        <hr>
+
+        {% endfor %}
+        {% if calendars|length > 0 %}
+        <h3><strong>Dodaj Wydarzenie</strong></h3>
+        {% render_field addevent.name class="input" id="id_name_event"%}  
         <label>Nazwa wydarzenia<label>
-        {{ form.name.errors}} 
+        {{ addevent.name.errors}} 
         <br>
-        {% render_field form.visible_for class="input"%}     
+        {% render_field addevent.beggining_date class="input" type="datetime-local"%}     
+        <label>Data rozpoczęcia wydarzenia</label>
+        {{ addevent.beggining_date.errors}} 
+        <br>
+        {% render_field addevent.end_time class="input" type="datetime-local" %}   
+        <label>Data zakończenia wydarzenia</label>
+        {{ addevent.end_time.errors}}     
+        <br> 
+        {% render_field addevent.event_type class="input"%}   
+        <label>Typ wydarzenia</label>
+        {{ addevent.event_type.errors}}     
+        <br>
+        <button class="button" type="submit" name="action" value="newevent">Dodaj Wydarzenie</button>
+        <br>
+        {% endif %} 
+    </form>
+    
+  </div>
+  <div id="option1" style="display:none;">
+    <form method="post" class="form">
+        {% csrf_token %}
+        <h3><strong>Dodawanie Kalendarza</strong></h3>
+        <br>
+        {% render_field create.name class="input"%}  
+        <label>Nazwa Kalendarza<label>
+        {{ create.name.errors}} 
+        <br>
+        {% render_field create.visible_for class="input"%}     
         <label>Widok</label>
-        {{ form.visible_for.errors}} 
+        {{ create.visible_for.errors}} 
         <br>
-        {% render_field form.editable_by class="input"%}   
+        {% render_field create.editable_by class="input"%}   
         <label>Edytowane przez</label>
-        {{ form.editable_by.errors}}     
+        {{ create.editable_by.errors}}     
         <br>     
         <br>
-        <input type="submit" value="Dodaj" class="button" name="login" id="login"  ></input>
+        <button class="button" type="submit" name="action" value="create">Dodaj</button>
         <br>
     </form>
+  </div>
 </div>
 <div class="calendar" id='calendar'></div>
+{{ calendars|json_script:"calendar_data" }}
 {% endblock content %}
