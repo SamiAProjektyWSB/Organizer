@@ -32,7 +32,7 @@ class CalendarInput(forms.ModelForm):
         self.instance = calendar
 class addEvent(forms.ModelForm):
 
-    beggining_date = forms.DateTimeField(input_formats=["$d.%m.%Y %H:%M"], required=True)
+    beggining_time = forms.DateTimeField(input_formats=["$d.%m.%Y %H:%M"], required=True)
     end_time = forms.DateTimeField(input_formats=["$d.%m.%Y %H:%M"], required=False)
 
     def set_calendar(self, calendar_id):
