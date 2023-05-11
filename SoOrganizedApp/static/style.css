@@ -1,0 +1,76 @@
+.uplogobar{
+    display: flex;
+    align-items: center;
+}
+
+
+body{
+    background-image: url(OAK42N0.jpg);
+    background-size: 1920px 1080px;
+    font-family: sans-serif ;
+    width: 100%;
+    height: 100%;
+    color: azure;
+    text-align: center;
+    overflow: hidden;
+}
+
+form{
+    left: 35%;
+    top: 235px;
+    border-radius: 20px;
+    position: absolute;
+    backdrop-filter: blur(40px);
+    background-color: rgba(255,255,255,0.252);
+    width: 500px;
+    padding: 20px 50px;
+
+}
+
+.input{
+    border: none;
+    border-bottom: 1px solid rgba(12,12,12,0.273);
+    background-color: transparent;
+    color: black;
+    width: 100%;
+    margin-top: 60px;
+    font-size: 18px;
+    padding: 10xp;
+
+}
+
+.button{
+    background-color: lightgreen;
+    color: white;
+    width: 30%;
+    display: block;
+    margin: auto;
+    height: 50px;
+    margin-top: 50px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.button:hover{
+    background-color: white;
+    color: black;
+    transition: .5s;
+}
+
+h1{
+    color: black;
+}
+
+span{
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.errorlist{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: rgba(255, 0, 0, 0.897);
+}
+
+.left{
+    float: left;
+}

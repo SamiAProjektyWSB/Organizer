@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'soocalendar',
     'rest_framework',
+    'six',
 ]
 
 MIDDLEWARE = [
@@ -60,8 +61,16 @@ LOGIN_REDIRECT_URL='home'
 
 ROOT_URLCONF = 'SoOrganizedApp.urls'
 
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'emails')
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+#EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'emails')
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sami.projektyezn@gmail.com'
+EMAIL_HOST_PASSWORD = 'knocbgcewkajrqsq'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 TEMPLATES = [
     {

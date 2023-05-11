@@ -1,9 +1,17 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from soocalendar.forms import CalendarInput, CalendarChange, addEvent
-from soocalendar.serializers import Serializer
+from soocalendar.serializers import Serializer, eventSerializer
 from soocalendar.models import Calendar
 from rest_framework.utils import json
+
+
+def getEvents(calendarChosen):
+    calendar = Calendar.objects.get(calendar_id=calendarChosen)
+    serializedEvent = eventSerializer(calendar.event_set.all(), many=True).data
+    return serializedEvent
+
 
 @login_required
 def home(request):
@@ -12,7 +20,7 @@ def home(request):
     
 
     if "calendarChosen" in request.GET:
-        calendarChosen = request.GET["selected_calendar"]
+        calendarChosen = request.GET["calendarChosen"]
         firstCalendar = True
     else:
         firstCalendar = Calendar.objects.filter(owner=request.user).first()
@@ -33,6 +41,10 @@ def home(request):
             calendar = Calendar.objects.get(calendar_id=request.POST["calendar_id"])
             if calendar.owner == request.user:
                 calendar.delete()
+                firstCalendar = Calendar.objects.filter(owner=request.user).first()
+                if firstCalendar:
+                    calendarChosen = firstCalendar.calendar_id
+
 
         if request.POST['action'] == "edit":
             form = CalendarChange(request.POST)
@@ -46,18 +58,23 @@ def home(request):
                 form.save()
                 add_event = addEvent()
             else:
+                print(form)
                 add_event = form
 
 
     
 
-    queryset = Calendar.objects.filter(owner=request.user.pk)
-    context["calendars"] =  Serializer(queryset, many=True).data
+    queryset_accesed = Calendar.objects.filter(Q(owner=request.user.pk) | Q(visible_for=request.user))
+    queryset_edit = Calendar.objects.filter(Q(owner=request.user.pk) | Q(editable_by=request.user))
+    context["calendars"] =  Serializer( queryset_edit, many=True).data
     context['create'] = CalendarInput()
     context['edit'] = CalendarChange(initial={"user_id": request.user.pk, "owner": request.user})
+    context['soocalendars'] = queryset_accesed
+
+    if firstCalendar:
+        context['calendarChosen'] = int(calendarChosen)
+        context['events'] = getEvents(calendarChosen)
     context['addevent'] = add_event
-    context['soocalendars'] = queryset
-    context['calendarChosen'] = int(calendarChosen)
 
 
     return render(request, "home.html", context)

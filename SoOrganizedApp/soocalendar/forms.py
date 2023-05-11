@@ -15,12 +15,13 @@ class CalendarInput(forms.ModelForm):
         calendar = self.instance
         for mail in self.cleaned_data["visible_for"].split(";"):
             if Account.objects.filter(mail=mail).exists():
-                calendar.visible_for.add(mail)
+                user = Account.objects.filter(mail=mail).get()
+                calendar.visible_for.add(user.pk)
 
         for mail in self.cleaned_data["editable_by"].split(";"):
             if Account.objects.filter(mail=mail).exists():
-                calendar.editable_by.add(mail)
-
+                user = Account.objects.filter(mail=mail).get()
+                calendar.editable_by.add(user.pk)
         if commit:
             calendar.save()
 
@@ -30,6 +31,7 @@ class CalendarInput(forms.ModelForm):
         calendar = self.instance
         calendar.owner_id = user.pk
         self.instance = calendar
+        
 class addEvent(forms.ModelForm):
 
     beggining_time = forms.DateTimeField(input_formats=["$d.%m.%Y %H:%M"], required=True)
@@ -76,11 +78,13 @@ class CalendarChange(forms.ModelForm):
 
         for mail in self.cleaned_data["visible_for"].split(";"):
             if Account.objects.filter(mail=mail).exists():
-                calendar.visible_for.add(mail)
+                user = Account.objects.filter(mail=mail).get()
+                calendar.visible_for.add(user.pk)
 
         for mail in self.cleaned_data["editable_by"].split(";"):
             if Account.objects.filter(mail=mail).exists():
-                calendar.editable_by.add(mail)
+                user = Account.objects.filter(mail=mail).get()
+                calendar.editable_by.add(user.pk)
 
         if commit:
             calendar.save()

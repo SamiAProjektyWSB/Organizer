@@ -1,17 +1,29 @@
 {% extends 'base-app.html' %}
 {% block content %}
 {% load widget_tweaks %}
+{{ calendars|json_script:"calendar_data" }}
+{{ events|json_script:"events" }}
 <script>
 
 
 
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
+      events = JSON.parse(document.getElementById("events").textContent);
       var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         height: '900px',
         locale: 'pl',
         firstDay: '1',
+        customButtons: { logout: {text: 'wyloguj się', click : function() {window.location.href = {% url 'logout' %} }
+      }
+    },
+        headerToolbar: {
+          start: 'prev,next today',
+          center: 'title',
+          end: 'logout'
+    },   
+        eventSources: [{events: events, color: 'lightgreen', textColor: 'black'}]
 
       });
       calendar.render();
@@ -134,13 +146,13 @@
         <hr>
 
         {% endfor %}
-        {% if calendars|length > 0 %}
+        {% csrf_token %}
         <h3><strong>Dodaj Wydarzenie</strong></h3>
         {% render_field addevent.name class="input" id="id_name_event"%}  
         <label>Nazwa wydarzenia<label>
         {{ addevent.name.errors}} 
         <br>
-        {% render_field addevent.beggining_time class="input" type="datetime-local"%}     
+        {% render_field addevent.beggining_time class="input" type="datetime-local"%}   
         <label>Data rozpoczęcia wydarzenia</label>
         {{ addevent.beggining_date.errors}} 
         <br>
@@ -154,7 +166,7 @@
         <br>
         <button class="button" type="submit" name="action" value="newevent">Dodaj Wydarzenie</button>
         <br>
-        {% endif %} 
+         
     </form>
     
   </div>
@@ -183,4 +195,5 @@
 </div>
 <div class="calendar" id='calendar'></div>
 {{ calendars|json_script:"calendar_data" }}
+{{ events|json_script:"calendar_data" }}
 {% endblock content %}
