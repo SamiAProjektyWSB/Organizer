@@ -1,0 +1,17 @@
+{% extends 'base-login.html' %}
+{% block content %}
+{% load widget_tweaks %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            {% render_field form.new_password1 class="input" type="password"%}
+            <span>Wprowadż nowe hasło</span>
+            {{ form.password1.errors}}
+            <br>
+            {% render_field form.new_password2 class="input" type="password"%}
+            <span>Potwierdź hasło</span>
+            {{ form.password2.errors}}
+            <button class="button" type="submit" >Resetuj hasło</button>
+        </form>
+    </div>
+{% endblock %}

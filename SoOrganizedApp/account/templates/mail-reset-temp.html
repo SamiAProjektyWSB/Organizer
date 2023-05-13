@@ -1,0 +1,10 @@
+{% autoescape off %}
+
+Witaj {{user}},
+
+Otrzymaliśmy wiadomość, że próbujesz odzyskać swoje hasło. Aby odzyskać hasło kliknij w poniższy link.
+
+{{ protocol }}://{{ domain }}{% url 'reset' uidb64=uid token=token %}
+
+
+{% endautoescape %}

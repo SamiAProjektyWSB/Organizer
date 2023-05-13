@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,  SetPasswordForm, PasswordResetForm
 from django.contrib.auth import authenticate
 from account.models import Account
 
@@ -24,3 +24,15 @@ class AuthForm(forms.ModelForm):
             if not authenticate(mail=mail, password=password):
                 self.add_error("password", "Błędne wprowadzone hasło lub adres e-mail")
                 raise forms.ValidationError("Dane niepoprawne")
+            
+
+class SetPasswordForm(SetPasswordForm):
+
+    class Meta:
+        model = Account
+        fields = ("new_password1","new_password2")
+
+class PasswordResetForm(PasswordResetForm):
+
+    def __init__(self, *args, **kwargs):
+        super(PasswordResetForm, self).__init__(*args, **kwargs)
